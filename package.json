@@ -1,0 +1,19 @@
+{
+  "name": "fwc-ai-hrms",
+  "version": "1.0.0",
+  "description": "Simple AI-powered HRMS hackathon project for FWC AIM selection.",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "test": "node scripts/smoke-test.js"
+  },
+  "keywords": [
+    "hrms",
+    "ai",
+    "fullstack",
+    "hackathon"
+  ],
+  "author": "",
+  "license": "MIT"
+}

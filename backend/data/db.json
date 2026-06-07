@@ -1,0 +1,1088 @@
+{
+  "users": [
+    {
+      "id": "user-admin",
+      "name": "Aarav Admin",
+      "email": "admin@fwc.demo",
+      "role": "admin",
+      "passwordHash": "93306b45fd2eb404e86449365045b63b:f3cdba193f922fd3abf6a2d30fd7769fe04f19eeaa414cd3a61ea16320bd408f270c352302dfabc6accb5130d05604f0578f86f0ad8ccb29d1a6e671590a8df2"
+    },
+    {
+      "id": "user-hr",
+      "name": "Hema Recruiter",
+      "email": "hr@fwc.demo",
+      "role": "hr",
+      "passwordHash": "ab6c08bf547591e7e0f369c367b298b7:2e617306efeb3968e4b24b5edc4c8db17d185c230e31e0f22050254108dd49a6aef6ea81a69fd6f8bb1a84cc110e45907b8a4f3d2dfa4ee727810595b7c7a7d6"
+    },
+    {
+      "id": "user-manager",
+      "name": "Meera Manager",
+      "email": "manager@fwc.demo",
+      "role": "manager",
+      "passwordHash": "078a59aeb7cf1e9a63229fdcaaefcc7a:ab38d2923e23694a449eb301f7aab310090dc2a78f38eccd23624f8fdefff23c6292df8919d36559471a27010d0e2221ed85a7664ae9d4ed03e8805a27ffab19"
+    },
+    {
+      "id": "user-employee",
+      "name": "Rohan Employee",
+      "email": "employee@fwc.demo",
+      "role": "employee",
+      "passwordHash": "04beb5999a021337cd4680d03c5baeaa:4460e3c46bd9957fa5a4f23a3b746cc50d9adde05bc17de48923fc639bf433f36e53b1ee016ee0e0bdf2413a542cb3913596e5018b83b782eadc3b0cab726964"
+    }
+  ],
+  "employees": [
+    {
+      "id": "emp-1",
+      "userId": "user-employee",
+      "name": "Rohan Employee",
+      "email": "employee@fwc.demo",
+      "department": "Engineering",
+      "designation": "Frontend Developer",
+      "salary": 75000,
+      "joiningDate": "2024-01-15"
+    },
+    {
+      "id": "emp-2",
+      "userId": "",
+      "name": "Aditi Bose",
+      "email": "aditi.bose@fwc.demo",
+      "department": "Finance",
+      "designation": "Finance Manager",
+      "salary": 89771,
+      "joiningDate": "2024-04-15"
+    },
+    {
+      "id": "emp-3",
+      "userId": "",
+      "name": "Priya Chopra",
+      "email": "priya.chopra@fwc.demo",
+      "department": "Sales",
+      "designation": "Sales Associate",
+      "salary": 70866,
+      "joiningDate": "2025-06-15"
+    },
+    {
+      "id": "emp-4",
+      "userId": "",
+      "name": "Amit Patel",
+      "email": "amit.patel@fwc.demo",
+      "department": "Marketing",
+      "designation": "SEO Specialist",
+      "salary": 70256,
+      "joiningDate": "2023-06-15"
+    },
+    {
+      "id": "emp-5",
+      "userId": "",
+      "name": "Neha Patel",
+      "email": "neha.patel@fwc.demo",
+      "department": "HR",
+      "designation": "Talent Acquisition",
+      "salary": 69313,
+      "joiningDate": "2025-05-15"
+    },
+    {
+      "id": "emp-6",
+      "userId": "",
+      "name": "Rahul Bose",
+      "email": "rahul.bose@fwc.demo",
+      "department": "HR",
+      "designation": "HR Manager",
+      "salary": 59296,
+      "joiningDate": "2022-09-15"
+    },
+    {
+      "id": "emp-7",
+      "userId": "",
+      "name": "Amit Verma",
+      "email": "amit.verma@fwc.demo",
+      "department": "HR",
+      "designation": "HR Manager",
+      "salary": 66613,
+      "joiningDate": "2025-02-15"
+    },
+    {
+      "id": "emp-8",
+      "userId": "",
+      "name": "Ananya Reddy",
+      "email": "ananya.reddy@fwc.demo",
+      "department": "HR",
+      "designation": "Talent Acquisition",
+      "salary": 86592,
+      "joiningDate": "2024-07-15"
+    },
+    {
+      "id": "emp-9",
+      "userId": "",
+      "name": "Pooja Joshi",
+      "email": "pooja.joshi@fwc.demo",
+      "department": "Marketing",
+      "designation": "Content Strategist",
+      "salary": 63901,
+      "joiningDate": "2024-06-15"
+    },
+    {
+      "id": "emp-10",
+      "userId": "",
+      "name": "Rahul Gupta",
+      "email": "rahul.gupta@fwc.demo",
+      "department": "Sales",
+      "designation": "Sales Associate",
+      "salary": 44961,
+      "joiningDate": "2023-01-15"
+    },
+    {
+      "id": "emp-11",
+      "userId": "",
+      "name": "Aisha Kumar",
+      "email": "aisha.kumar@fwc.demo",
+      "department": "Sales",
+      "designation": "Account Executive",
+      "salary": 108479,
+      "joiningDate": "2025-02-15"
+    },
+    {
+      "id": "emp-12",
+      "userId": "",
+      "name": "Neha Patel",
+      "email": "neha.patel@fwc.demo",
+      "department": "Finance",
+      "designation": "Financial Analyst",
+      "salary": 101541,
+      "joiningDate": "2023-01-15"
+    },
+    {
+      "id": "emp-13",
+      "userId": "",
+      "name": "Arjun Singh",
+      "email": "arjun.singh@fwc.demo",
+      "department": "Sales",
+      "designation": "Account Executive",
+      "salary": 83427,
+      "joiningDate": "2025-09-15"
+    },
+    {
+      "id": "emp-14",
+      "userId": "",
+      "name": "Priya Verma",
+      "email": "priya.verma@fwc.demo",
+      "department": "Marketing",
+      "designation": "Growth Hacker",
+      "salary": 78211,
+      "joiningDate": "2022-03-15"
+    },
+    {
+      "id": "emp-15",
+      "userId": "",
+      "name": "Vikram Das",
+      "email": "vikram.das@fwc.demo",
+      "department": "Sales",
+      "designation": "Account Executive",
+      "salary": 107589,
+      "joiningDate": "2023-06-15"
+    }
+  ],
+  "attendance": [
+    {
+      "id": "att-emp-1-1",
+      "employeeId": "emp-1",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-1-2",
+      "employeeId": "emp-1",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-1-3",
+      "employeeId": "emp-1",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-1-4",
+      "employeeId": "emp-1",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-1-5",
+      "employeeId": "emp-1",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-1-6",
+      "employeeId": "emp-1",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-1-7",
+      "employeeId": "emp-1",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-2-1",
+      "employeeId": "emp-2",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-2-2",
+      "employeeId": "emp-2",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-2-3",
+      "employeeId": "emp-2",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-2-4",
+      "employeeId": "emp-2",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-2-5",
+      "employeeId": "emp-2",
+      "date": "2026-06-05",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-2-6",
+      "employeeId": "emp-2",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-2-7",
+      "employeeId": "emp-2",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-3-1",
+      "employeeId": "emp-3",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-3-2",
+      "employeeId": "emp-3",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-3-3",
+      "employeeId": "emp-3",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-3-4",
+      "employeeId": "emp-3",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-3-5",
+      "employeeId": "emp-3",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-3-6",
+      "employeeId": "emp-3",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-3-7",
+      "employeeId": "emp-3",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-4-1",
+      "employeeId": "emp-4",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-4-2",
+      "employeeId": "emp-4",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-4-3",
+      "employeeId": "emp-4",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-4-4",
+      "employeeId": "emp-4",
+      "date": "2026-06-04",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-4-5",
+      "employeeId": "emp-4",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-4-6",
+      "employeeId": "emp-4",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-4-7",
+      "employeeId": "emp-4",
+      "date": "2026-06-07",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-5-1",
+      "employeeId": "emp-5",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-5-2",
+      "employeeId": "emp-5",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-5-3",
+      "employeeId": "emp-5",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-5-4",
+      "employeeId": "emp-5",
+      "date": "2026-06-04",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-5-5",
+      "employeeId": "emp-5",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-5-6",
+      "employeeId": "emp-5",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-5-7",
+      "employeeId": "emp-5",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-6-1",
+      "employeeId": "emp-6",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-6-2",
+      "employeeId": "emp-6",
+      "date": "2026-06-02",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-6-3",
+      "employeeId": "emp-6",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-6-4",
+      "employeeId": "emp-6",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-6-5",
+      "employeeId": "emp-6",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-6-6",
+      "employeeId": "emp-6",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-6-7",
+      "employeeId": "emp-6",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-7-1",
+      "employeeId": "emp-7",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-7-2",
+      "employeeId": "emp-7",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-7-3",
+      "employeeId": "emp-7",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-7-4",
+      "employeeId": "emp-7",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-7-5",
+      "employeeId": "emp-7",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-7-6",
+      "employeeId": "emp-7",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-7-7",
+      "employeeId": "emp-7",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-8-1",
+      "employeeId": "emp-8",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-8-2",
+      "employeeId": "emp-8",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-8-3",
+      "employeeId": "emp-8",
+      "date": "2026-06-03",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-8-4",
+      "employeeId": "emp-8",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-8-5",
+      "employeeId": "emp-8",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-8-6",
+      "employeeId": "emp-8",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-8-7",
+      "employeeId": "emp-8",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-9-1",
+      "employeeId": "emp-9",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-9-2",
+      "employeeId": "emp-9",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-9-3",
+      "employeeId": "emp-9",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-9-4",
+      "employeeId": "emp-9",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-9-5",
+      "employeeId": "emp-9",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-9-6",
+      "employeeId": "emp-9",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-9-7",
+      "employeeId": "emp-9",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-10-1",
+      "employeeId": "emp-10",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-10-2",
+      "employeeId": "emp-10",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-10-3",
+      "employeeId": "emp-10",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-10-4",
+      "employeeId": "emp-10",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-10-5",
+      "employeeId": "emp-10",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-10-6",
+      "employeeId": "emp-10",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-10-7",
+      "employeeId": "emp-10",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-11-1",
+      "employeeId": "emp-11",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-11-2",
+      "employeeId": "emp-11",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-11-3",
+      "employeeId": "emp-11",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-11-4",
+      "employeeId": "emp-11",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-11-5",
+      "employeeId": "emp-11",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-11-6",
+      "employeeId": "emp-11",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-11-7",
+      "employeeId": "emp-11",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-12-1",
+      "employeeId": "emp-12",
+      "date": "2026-06-01",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-12-2",
+      "employeeId": "emp-12",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-12-3",
+      "employeeId": "emp-12",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-12-4",
+      "employeeId": "emp-12",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-12-5",
+      "employeeId": "emp-12",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-12-6",
+      "employeeId": "emp-12",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-12-7",
+      "employeeId": "emp-12",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-13-1",
+      "employeeId": "emp-13",
+      "date": "2026-06-01",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-13-2",
+      "employeeId": "emp-13",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-13-3",
+      "employeeId": "emp-13",
+      "date": "2026-06-03",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-13-4",
+      "employeeId": "emp-13",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-13-5",
+      "employeeId": "emp-13",
+      "date": "2026-06-05",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-13-6",
+      "employeeId": "emp-13",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-13-7",
+      "employeeId": "emp-13",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-14-1",
+      "employeeId": "emp-14",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-14-2",
+      "employeeId": "emp-14",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-14-3",
+      "employeeId": "emp-14",
+      "date": "2026-06-03",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-14-4",
+      "employeeId": "emp-14",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-14-5",
+      "employeeId": "emp-14",
+      "date": "2026-06-05",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-14-6",
+      "employeeId": "emp-14",
+      "date": "2026-06-06",
+      "status": "Absent"
+    },
+    {
+      "id": "att-emp-14-7",
+      "employeeId": "emp-14",
+      "date": "2026-06-07",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-15-1",
+      "employeeId": "emp-15",
+      "date": "2026-06-01",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-15-2",
+      "employeeId": "emp-15",
+      "date": "2026-06-02",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-15-3",
+      "employeeId": "emp-15",
+      "date": "2026-06-03",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-15-4",
+      "employeeId": "emp-15",
+      "date": "2026-06-04",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-15-5",
+      "employeeId": "emp-15",
+      "date": "2026-06-05",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-15-6",
+      "employeeId": "emp-15",
+      "date": "2026-06-06",
+      "status": "Present"
+    },
+    {
+      "id": "att-emp-15-7",
+      "employeeId": "emp-15",
+      "date": "2026-06-07",
+      "status": "Present"
+    }
+  ],
+  "leaves": [
+    {
+      "id": "leave-emp-2",
+      "employeeId": "emp-2",
+      "fromDate": "2026-06-15",
+      "toDate": "2026-06-16",
+      "reason": "Personal work",
+      "status": "Pending"
+    },
+    {
+      "id": "leave-emp-3",
+      "employeeId": "emp-3",
+      "fromDate": "2026-06-15",
+      "toDate": "2026-06-16",
+      "reason": "Personal work",
+      "status": "Approved"
+    },
+    {
+      "id": "leave-emp-8",
+      "employeeId": "emp-8",
+      "fromDate": "2026-06-15",
+      "toDate": "2026-06-16",
+      "reason": "Personal work",
+      "status": "Approved"
+    },
+    {
+      "id": "leave-emp-10",
+      "employeeId": "emp-10",
+      "fromDate": "2026-06-15",
+      "toDate": "2026-06-16",
+      "reason": "Personal work",
+      "status": "Pending"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "cand-1780768074167-a8ac96",
+      "name": "Saksham Kushwaha",
+      "email": "sakshamsingh1304@gmail.com",
+      "skills": "Python, JavaScript, React.js, Node.js, MongoDB, Machine Learning, Data Analysis",
+      "resumeText": "Saksham Kushwaha   \nLinkedin:  linkedin.com/in/saksham -kushwaha/  Email: sakshamsingh1304@gmail.com  \nGithub:  github.com/sakshamsingh1304   Mobile:  +91 6353179073  \nPROJECTS   \n    \n • OLA Price Prediction:           January 2025 – March 2025  \nBuilt a machine learning model to predict Chh -OLA trip fares using trip parameters like distance, tolls,  \nand payment methods.  \nTech:  Python, Pandas, NumPy, Scikit -learn, Random Forest, XGBoost, Flask, Git, Jupyter Notebook  \nKey Highlights:  \n• Processed and cleaned a dataset of 1.4M trips for accurate fare prediction.  \n• Engineered key features from time, location, and ride attributes.  \n• Compared multiple models, selecting Random Forest for the best performance.  \n• Deployed a Flask API for real -time fare estimation.  \n \n•  Spotify Music Data Analysis:                                                                                                                                August 2024 – November2024   \nDeveloped a comprehensive data analysis project based on the Spotify 2023 dataset, utilizing Python libraries for data manipu lation,  \ncleaning, and visualization. The project explored key trends, attributes, and performance of top tracks and artists.  \n     Tech:  Python, Pandas, NumPy, Matplotlib, Seaborn  \n     Key Highlights:  \n• Data Cleaning:  Addressed missing values, inconsistent data types, and removed duplicates.  \n• Data Transformation:  Processed and transformed data, including splitting artist names.  \n• Exploratory Data Analysis (EDA):  Analyzed key trends in song features and artist popularity.  \n• Visualizations:  Created histograms, violin plots, and heatmaps to showcase data distribution and correlations.  \n• MERN Stack Notes App :                                                                                                                                        June 2024  – August 2024  \nDeveloped a full -stack Notes application using the MERN stack (MongoDB, Express, React, Node.js). The app  allows  users  to create,  edit, delete,         \nand view  notes  securely.  \n     Tech:  MongoDB,  Node.js,  Express.js,  React.js,  JWT,  bcrypt,  Mongoose,  Git,  Netlify,  MongoDB  Atlas  \n     Key Highlights:  \n• Frontend:  React.js for building dynamic UI components for managing notes.  \n• Backend:  Node.js & Express for handling API routes and CRUD operations for notes.  \n• Security:  Implemented JWT for user authentication and bcrypt for secure password storage.  \n• Deployment:  Deployed backend on Heroku, frontend on Netlify, and database on MongoDB Atlas.  \n \n   SKILLS   \n  • Languages :  P y t h o n , javascript    \n \n  •  Frameworks : HTML and CSS, NodeJS, React, expressJS   \n \n  •  Tools/Platforms : MySQL, MongoDB, tableau, Power BI   \n \n  •  Soft Skills : Communication skills, Team Player, Adaptability   \n \n  CERTIFICATES    \n \n      \n  Data Analysis and Visualization with Python - Coursera                                              \nThe Bits and Bytes of Computer Networkin g- Coursera  May  2025 – June 2025  \nApril 2024 – May 2024  \n \n  Complete Full -Stack Development using MERN Stack - Cipher School  June 2024 – August  2024 \n \n  ACHIEVEMENTS    \n \n     \n • Participated in Hackathone:  January 2023  \n \n   Participated in Hackathone  organized by Webathone   \n \n • Participated in MUN in School:  December 2021  \n \n   Participated and got recognized at MUN.   \n \n   \nEDUCATION    \n \n      \n  • Lovely Professional University  Jalandhar, Punjab  \n \n   Bachelor of Technology - Computer Science and Engineering; CGPA: 6.9           2022 -  2026  \n \n  • Shree Vallabh Ashram International School  Valsad, Gujarat  \n \n   Intermediate; Percentage: 65%  2021 -  2022  \n \n`  • Shree Vallabh Ashram International School  Valsad, Gujarat  \n \n  Matriculation; Percentage: 83%  2019 – 2020",
+      "atsFormalScore": 90,
+      "atsKeywordScore": 80,
+      "jdRelevancyScore": 85,
+      "aiScore": 83,
+      "recommendation": "Shortlisted",
+      "aiFeedback": "The candidate's resume demonstrates strong technical skills and relevant project experience, particularly in machine learning and full-stack development. The presence of a clear and concise project description, along with relevant tools and technologies, makes this candidate a strong fit for the role. However, some required keywords are missing, which may need to be explored further during the interview process.",
+      "justification": "The candidate's resume demonstrates strong technical skills and relevant project experience, particularly in machine learning and full-stack development. The presence of a clear and concise project description, along with relevant tools and technologies, makes this candidate a strong fit for the role. However, some required keywords are missing, which may need to be explored further during the interview process.",
+      "matchedKeywords": [
+        "Python",
+        "JavaScript",
+        "React.js",
+        "Node.js",
+        "MongoDB",
+        "Machine Learning",
+        "Data Analysis"
+      ],
+      "missingKeywords": [
+        "OpenAI",
+        "Gemini API",
+        "Claude",
+        "Hugging Face",
+        "TensorFlow.js",
+        "AWS Free Tier",
+        "GCP Free Tier",
+        "Azure Free Tier"
+      ],
+      "redFlags": []
+    },
+    {
+      "id": "cand-1780768631129-0fafb4",
+      "name": "Saksham Kushwaha",
+      "email": "no-email@provided.com",
+      "skills": "Python, React.js, Node.js, MongoDB, Git, Flask, JWT",
+      "resumeText": "Saksham Kushwaha\n\nBuilt a machine learning model to predict Chh-OLA trip fares using trip parameters like distance, tolls, \nand payment methods.\nTech: Python, Pandas, NumPy, Scikit-learn, Random Forest, XGBoost, Flask, Git, Jupyter Notebook\nKey Highlights:\nProcessed and cleaned a dataset of 1.4M trips for accurate fare prediction.\nEngineered key features from time, location, and ride attributes.\nCompared multiple models, selecting Random Forest for the best performance.\nDeployed a Flask API for real-time fare estimation.\n\n•  Spotify Music Data Analysis:                                                                                                                               August 2024 – November2024\n\nDeveloped a comprehensive data analysis project based on the Spotify 2023 dataset, utilizing Python libraries for data manipulation, \ncleaning, and visualization. The project explored key trends, attributes, and performance of top tracks and artists.\n     Tech: Python, Pandas, NumPy, Matplotlib, Seaborn\n     Key Highlights:\nData Cleaning: Addressed missing values, inconsistent data types, and removed duplicates.\nData Transformation: Processed and transformed data, including splitting artist names.\nExploratory Data Analysis (EDA): Analyzed key trends in song features and artist popularity.\nVisualizations: Created histograms, violin plots, and heatmaps to showcase data distribution and correlations.\n•\tMERN Stack Notes App:                                                                                                                                        June 2024  – August 2024\nDeveloped a full-stack Notes application using the MERN stack (MongoDB, Express, React, Node.js). The app allows users to create, edit, delete,        and view notes securely.\n     Tech: MongoDB, Node.js, Express.js, React.js, JWT, bcrypt, Mongoose, Git,  Netlify, MongoDB Atlas\n     Key Highlights:\nFrontend: React.js for building dynamic UI components for managing notes.\nBackend: Node.js & Express for handling API routes and CRUD operations for notes.\nSecurity: Implemented JWT for user authentication and bcrypt for secure password storage.\nDeployment: Deployed backend on Heroku, frontend on Netlify, and database on MongoDB Atlas.\n\n   SKILLS",
+      "atsFormalScore": 80,
+      "atsKeywordScore": 60,
+      "jdRelevancyScore": 70,
+      "aiScore": 68,
+      "recommendation": "Review manually",
+      "aiFeedback": "The candidate's resume demonstrates a good structure and logical chronology, but lacks direct experience with some of the required technologies. The projects showcased are relevant to the field, but may not fully align with the job description's requirements. The candidate's skills in Python, React.js, and Node.js are notable, but the absence of certain keywords and technologies is a concern.",
+      "justification": "The candidate's resume demonstrates a good structure and logical chronology, but lacks direct experience with some of the required technologies. The projects showcased are relevant to the field, but may not fully align with the job description's requirements. The candidate's skills in Python, React.js, and Node.js are notable, but the absence of certain keywords and technologies is a concern.",
+      "matchedKeywords": [
+        "Python",
+        "React.js",
+        "Node.js",
+        "MongoDB",
+        "Git",
+        "Flask",
+        "JWT"
+      ],
+      "missingKeywords": [
+        "OpenAI",
+        "Gemini API",
+        "Claude",
+        "Hugging Face",
+        "TensorFlow.js",
+        "AWS Free Tier",
+        "GCP Free Tier",
+        "Azure Free Tier",
+        "Docker",
+        "GitHub Actions"
+      ],
+      "redFlags": []
+    },
+    {
+      "id": "cand-1780830295866-aedef8",
+      "name": "Vinayak Purohit",
+      "email": "vinayakpurohit9589@gmail.com",
+      "skills": "",
+      "resumeText": "VINAYAK PUROHIT\n\nvinayakpurohit9589@gmail.com  ·  +91 9589100296  ·  LinkedIn  ·  GitHub  ·  Jalandhar, Punjab\nEDUCATION\nB.Tech, Computer Science — Data Science & Machine Learning\tAug 2022 – May 2026\nLovely Professional University\tJalandhar, Punjab\nPROJECTS\nSales Performance Dashboard\tJan 2026 – Feb 2026\nAnalysed 12,000+ sales transactions across 15+ product categories using SQL to surface revenue trends, conversion gaps, and category-level performance insights\nResolved 1,200+ missing and inconsistent records through structured data cleaning and transformation in SQL and Excel, ensuring downstream analytical accuracy\nDeveloped a Power BI dashboard with 10+ KPIs — revenue, conversion rate, and category share — automating monthly reporting and identifying top 3 categories driving 42% of total revenue\nTechnologies: SQL, MySQL, Power BI, Excel (PivotTables, VLOOKUP, VBA), DAX, KPI Tracking, Reporting Automation\nLayoffs Dataset Analytics & Data Cleaning  ↗ GitHub\tJun 2025 – Jul 2025\nAnalysed 5,000+ global layoff records across 20+ industries using SQL window functions and CTEs, uncovering 3 sectors responsible for 55% of total layoffs\nEliminated 250+ duplicate records using ROW_NUMBER() and standardised 30+ industry/country fields through systematic data transformation for downstream integrity\nDelivered structured trend report surfacing workforce insights across industries for stakeholder review\nTechnologies: SQL, MySQL, Window Functions, CTEs, Joins, Aggregations, Exploratory Data Analysis (EDA), Root Cause Analysis\nCustomer Behaviour Data Analytics  ↗ GitHub\tJan 2025 – Feb 2025\nProcessed 100,000+ transactions across 10,000+ customers using Python (Pandas) for end-to-end EDA, null handling, and feature transformation\nExecuted PostgreSQL queries with CTEs and window functions for revenue segmentation and statistical analysis across customer cohorts\nConstructed a Power BI dashboard with 12+ KPIs on purchasing trends, enabling data-driven decisions for both business and non-technical stakeholders\nTechnologies: Python, Pandas, PostgreSQL, CTEs, Window Functions, Power BI, DAX, Statistical Analysis, Exploratory Data Analysis (EDA)\nTECHNICAL SKILLS\nLanguages: Python, SQL, Java\nDatabases: MySQL, PostgreSQL, Query Optimization, Common Table Expressions (CTEs), Window Functions, Joins, Aggregations\nData Analysis: Data Cleaning, Data Transformation, Exploratory Data Analysis (EDA), Statistical Analysis, Root Cause Analysis, Trend Analysis, A/B Testing\nVisualization: Power BI, Tableau, Dashboard Development, DAX, KPI Tracking, Reporting Automation\nExcel: PivotTables, VLOOKUP, VBA, Power Query\nData Engineering: ETL Processes, Data Warehousing, Data Modelling, Data Pipeline Development\nCloud & Tools: AWS, Azure, Git, GitHub, Docker\nCERTIFICATIONS\nGenerative AI — IIT Roorkee\tOct 2024\nMachine Learning — IIT Roorkee\tSep 2024\nData Structures & Algorithms — GeeksforGeeks\tJun 2024 – Aug 2024\n100 Days of Code — Python — Udemy\tJan 2024 – Apr 2024\nLEADERSHIP & ACHIEVEMENTS\nLed public relations for Youth Vibe — managed stakeholder communications for a 5-day event with 10,000+ attendees, coordinating press, social media, and on-ground teams across 3 departments\nPlaced in top ranks at university hackathon by designing and shipping a working data analytics prototype within a 24-hour constraint, beating 30+ competing teams\nDirected a 12-member cross-functional team to plan and execute a university tech fest with 500+ participants, managing scheduling, logistics, and budget allocation",
+      "atsFormalScore": 80,
+      "atsKeywordScore": 20,
+      "jdRelevancyScore": 40,
+      "aiScore": 38,
+      "recommendation": "Needs improvement",
+      "aiFeedback": "The candidate's resume lacks direct keyword matches for the job description, and their experience is more focused on data analysis and visualization. While the resume is well-structured and authentic, the lack of relevant technical skills and experience is a significant concern. The candidate's projects and technical skills do not align closely with the job requirements, resulting in a low overall score.",
+      "justification": "The candidate's resume lacks direct keyword matches for the job description, and their experience is more focused on data analysis and visualization. While the resume is well-structured and authentic, the lack of relevant technical skills and experience is a significant concern. The candidate's projects and technical skills do not align closely with the job requirements, resulting in a low overall score.",
+      "matchedKeywords": [],
+      "missingKeywords": [
+        "React",
+        "Node.js",
+        "Fullstack Engineer"
+      ],
+      "redFlags": [
+        "lack of relevant technical skills",
+        "inconsistent job description match"
+      ]
+    }
+  ],
+  "performance": [
+    {
+      "id": "perf-emp-1",
+      "employeeId": "emp-1",
+      "rating": 3,
+      "feedback": "Meets expectations, needs slight improvement in communication.",
+      "aiSummary": "Average performer with growth potential."
+    },
+    {
+      "id": "perf-emp-2",
+      "employeeId": "emp-2",
+      "rating": 3,
+      "feedback": "Meets expectations, needs slight improvement in communication.",
+      "aiSummary": "Average performer with growth potential."
+    },
+    {
+      "id": "perf-emp-3",
+      "employeeId": "emp-3",
+      "rating": 3,
+      "feedback": "Meets expectations, needs slight improvement in communication.",
+      "aiSummary": "Average performer with growth potential."
+    },
+    {
+      "id": "perf-emp-4",
+      "employeeId": "emp-4",
+      "rating": 5,
+      "feedback": "Exceptional performance, exceeded expectations.",
+      "aiSummary": "Top performer with high impact."
+    },
+    {
+      "id": "perf-emp-5",
+      "employeeId": "emp-5",
+      "rating": 3,
+      "feedback": "Meets expectations, needs slight improvement in communication.",
+      "aiSummary": "Average performer with growth potential."
+    },
+    {
+      "id": "perf-emp-6",
+      "employeeId": "emp-6",
+      "rating": 5,
+      "feedback": "Exceptional performance, exceeded expectations.",
+      "aiSummary": "Top performer with high impact."
+    },
+    {
+      "id": "perf-emp-7",
+      "employeeId": "emp-7",
+      "rating": 5,
+      "feedback": "Exceptional performance, exceeded expectations.",
+      "aiSummary": "Top performer with high impact."
+    },
+    {
+      "id": "perf-emp-8",
+      "employeeId": "emp-8",
+      "rating": 5,
+      "feedback": "Exceptional performance, exceeded expectations.",
+      "aiSummary": "Top performer with high impact."
+    },
+    {
+      "id": "perf-emp-9",
+      "employeeId": "emp-9",
+      "rating": 4,
+      "feedback": "Solid performance, highly reliable.",
+      "aiSummary": "Consistent contributor."
+    },
+    {
+      "id": "perf-emp-10",
+      "employeeId": "emp-10",
+      "rating": 3,
+      "feedback": "Meets expectations, needs slight improvement in communication.",
+      "aiSummary": "Average performer with growth potential."
+    },
+    {
+      "id": "perf-emp-11",
+      "employeeId": "emp-11",
+      "rating": 5,
+      "feedback": "Exceptional performance, exceeded expectations.",
+      "aiSummary": "Top performer with high impact."
+    },
+    {
+      "id": "perf-emp-12",
+      "employeeId": "emp-12",
+      "rating": 5,
+      "feedback": "Exceptional performance, exceeded expectations.",
+      "aiSummary": "Top performer with high impact."
+    },
+    {
+      "id": "perf-emp-13",
+      "employeeId": "emp-13",
+      "rating": 4,
+      "feedback": "Solid performance, highly reliable.",
+      "aiSummary": "Consistent contributor."
+    },
+    {
+      "id": "perf-emp-14",
+      "employeeId": "emp-14",
+      "rating": 5,
+      "feedback": "Exceptional performance, exceeded expectations.",
+      "aiSummary": "Top performer with high impact."
+    },
+    {
+      "id": "perf-emp-15",
+      "employeeId": "emp-15",
+      "rating": 4,
+      "feedback": "Solid performance, highly reliable.",
+      "aiSummary": "Consistent contributor."
+    }
+  ],
+  "payroll": [],
+  "announcements": [
+    {
+      "id": "ann-1",
+      "title": "Quarterly Townhall",
+      "content": "Join us this Friday for the quarterly business update.",
+      "createdBy": "Aarav Admin",
+      "createdAt": "2026-06-07T10:46:11.630Z"
+    },
+    {
+      "id": "ann-2",
+      "title": "New Health Insurance",
+      "content": "Updated policies have been rolled out. Check your email.",
+      "createdBy": "Hema Recruiter",
+      "createdAt": "2026-06-07T10:46:11.632Z"
+    }
+  ],
+  "policies": [
+    {
+      "id": "policy-1",
+      "title": "Leave policy",
+      "content": "Employees get 18 annual leaves. Leave requests need manager or admin approval."
+    },
+    {
+      "id": "policy-2",
+      "title": "Attendance policy",
+      "content": "Employees should mark attendance once per working day."
+    },
+    {
+      "id": "policy-3",
+      "title": "Payroll policy",
+      "content": "Monthly salary is calculated from basic salary, allowances, deductions, and attendance."
+    }
+  ],
+  "jobDescription": "Fullstack Engineer required with React and Node.js..."
+}
