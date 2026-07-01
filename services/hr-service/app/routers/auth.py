@@ -1,0 +1,37 @@
+from fastapi import APIRouter, HTTPException, status, Depends
+from sqlmodel import Session, select
+from pydantic import BaseModel
+
+from app.database import get_session
+from app.models import User
+from app.services.auth_utils import verify_password, sign_token
+
+router = APIRouter()
+
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+@router.post("/login")
+def login(request: LoginRequest, session: Session = Depends(get_session)):
+    email = request.email.lower().strip()
+    user = session.exec(select(User).where(User.email == email)).first()
+
+    if not user or not verify_password(request.password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password."
+        )
+
+    token = sign_token(user_id=user.id, role=user.role, name=user.username)
+    return {
+        "token": token,
+        "user": {
+            "id": user.id,
+            "name": user.username,
+            "email": user.email,
+            "role": user.role
+        }
+    }
