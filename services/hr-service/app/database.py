@@ -12,11 +12,14 @@ if not DATABASE_URL:
         "HR_DATABASE_URL is not set. Check your .env file in the workspace root."
     )
 
-# connect_timeout prevents silent hangs on cold Neon connections
+# pool_pre_ping=True reconnects automatically when Neon drops idle connections
+# pool_recycle avoids SSL EOF errors from stale connections
 engine = create_engine(
     DATABASE_URL,
     echo=False,
     connect_args={"connect_timeout": 30},
+    pool_pre_ping=True,
+    pool_recycle=300,
 )
 
 
