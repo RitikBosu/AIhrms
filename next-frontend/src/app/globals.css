@@ -1,10 +1,10 @@
+
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════
    FWC AI-HRMS — "Dark Command Center" Design System
    ═══════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
   /* ── Core palette ── */
@@ -44,7 +44,7 @@
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-blur:   blur(12px);
 
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
   font-size: 15px;
   color: var(--ink);
 }
@@ -74,7 +74,7 @@ body::before {
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-syne), sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -312,14 +312,14 @@ td button {
   border-radius: 10px;
   background: linear-gradient(135deg, #00b4d8, var(--cyan));
   font-weight: 800;
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-syne), sans-serif;
   font-size: 14px;
   color: #0a0e1a;
   flex-shrink: 0;
 }
 
 .brand strong {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-syne), sans-serif;
   font-size: 15px;
   letter-spacing: -0.01em;
 }
@@ -521,7 +521,7 @@ td button {
   padding: 14px 16px;
   border-bottom: 1px solid var(--border);
   font-weight: 700;
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-syne), sans-serif;
   font-size: 14px;
   color: var(--ink);
 }
@@ -615,7 +615,7 @@ td button {
 }
 
 .stat-value {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-space), sans-serif;
   font-size: 32px;
   font-weight: 700;
   line-height: 1;
