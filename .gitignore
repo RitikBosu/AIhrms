@@ -4,3 +4,17 @@ node_modules/
 server.log
 server.err.log
 .DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+
+# Dev utilities
+test_api.py
