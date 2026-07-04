@@ -2,13 +2,9 @@ from fastapi import APIRouter, Depends
 from app.routers.deps import get_current_user
 from app.services.db import read_db
 
-router = APIRouter()
+from app.services.utils import get_employee_for_user
 
-def get_employee_for_user(db, user_id):
-    for emp in db.get("employees", []):
-        if emp.get("userId") == user_id:
-            return emp
-    return None
+router = APIRouter()
 
 @router.get("/dashboard")
 def get_dashboard(user: dict = Depends(get_current_user)):

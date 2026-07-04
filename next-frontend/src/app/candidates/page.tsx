@@ -56,17 +56,16 @@ export default function CandidatesPage() {
     setUploading(true);
     
     const files = Array.from(e.target.files);
-    const resumes = await Promise.all(files.map(file => new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (ev) => resolve({ name: file.name, data: ev.target?.result });
-      reader.readAsDataURL(file);
-    })));
+    const formData = new FormData();
+    files.forEach(file => {
+      formData.append("files", file);
+    });
 
     try {
       const res = await fetch("/api/candidates", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ resumes })
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
       });
       if (res.ok) {
         alert("Resumes processed successfully.");

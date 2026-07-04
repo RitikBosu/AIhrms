@@ -7,6 +7,8 @@ import os
 from app.routers.deps import get_current_user
 from app.services.db import read_db, write_db
 
+from app.services.utils import create_id, require_role, get_employee_for_user
+
 router = APIRouter()
 
 ROLE_ACCESS = {
@@ -15,13 +17,6 @@ ROLE_ACCESS = {
     "manager": ["admin", "manager"],
     "employee": ["admin", "hr", "manager", "employee"]
 }
-
-def require_role(user, allowed_roles):
-    if user["role"] not in allowed_roles:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You do not have permission for this action.")
-
-def create_id(prefix):
-    return f"{prefix}-{int(time.time()*1000)}-{os.urandom(3).hex()}"
 
 class EmployeeCreate(BaseModel):
     name: str
@@ -33,12 +28,6 @@ class EmployeeCreate(BaseModel):
 
 class EmployeeUpdate(EmployeeCreate):
     pass
-
-def get_employee_for_user(db, user_id):
-    for emp in db.get("employees", []):
-        if emp.get("userId") == user_id:
-            return emp
-    return None
 
 @router.get("/employees")
 def get_employees(user: dict = Depends(get_current_user)):

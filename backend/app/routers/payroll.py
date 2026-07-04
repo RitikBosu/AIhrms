@@ -4,13 +4,9 @@ from typing import List, Optional
 from app.routers.deps import get_current_user
 from app.services.db import read_db
 
-router = APIRouter()
+from app.services.utils import get_employee_for_user
 
-def get_employee_for_user(db, user_id):
-    for emp in db.get("employees", []):
-        if emp.get("userId") == user_id:
-            return emp
-    return None
+router = APIRouter()
 
 def calculate_payroll_for_employee(emp, db):
     att = [a for a in db.get("attendance", []) if a.get("employeeId") == emp["id"]]
