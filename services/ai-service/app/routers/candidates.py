@@ -3,7 +3,8 @@ import re
 import time
 import base64
 import json
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, HTTPException, status, Depends, UploadFile, File
+from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel
 from typing import List, Optional
 from sqlmodel import Session, select
@@ -18,24 +19,12 @@ router = APIRouter()
 
 TEMP_DIR = os.path.join(os.path.dirname(__file__), "..", "temp")
 
-
 def require_hr(user):
     if user["role"] not in ["admin", "hr"]:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied.")
 
-
-class ResumeUpload(BaseModel):
-    name: str
-    data: str
-
-
-class CandidatesUpload(BaseModel):
-    resumes: List[ResumeUpload]
-
-
 class JDUpdate(BaseModel):
     jdText: str
-
 
 def _parse_pdf(filepath: str) -> str:
     try:
@@ -43,7 +32,6 @@ def _parse_pdf(filepath: str) -> str:
         return "\n".join(page.extract_text() or "" for page in reader.pages)
     except Exception as e:
         return f"Error extracting PDF: {e}"
-
 
 # ── Job Description ──────────────────────────────────────────────────────────
 
@@ -78,7 +66,7 @@ def get_candidates(session: Session = Depends(get_session), user: dict = Depends
 
 
 @router.post("/candidates")
-def upload_candidates(upload: CandidatesUpload, session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
+async def upload_candidates(files: List[UploadFile] = File(...), session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
     require_hr(user)
     os.makedirs(TEMP_DIR, exist_ok=True)
 
@@ -87,32 +75,32 @@ def upload_candidates(upload: CandidatesUpload, session: Session = Depends(get_s
         "AI/ML Fullstack Engineer: React.js, Node.js, Python, MongoDB, PostgreSQL, Groq AI, Docker, AWS, REST APIs, JWT Auth, Git"
 
     processed = []
-    for res_data in upload.resumes:
-        if not res_data.data:
-            continue
-        b64 = re.sub(r'^data:.*?;base64,', '', res_data.data)
-        ext = ".pdf" if res_data.name.lower().endswith(".pdf") else ".docx"
+    for file in files:
+        ext = ".pdf" if file.filename.lower().endswith(".pdf") else ".docx"
         tmp_path = os.path.join(TEMP_DIR, f"tmp_{int(time.time()*1000)}_{os.urandom(4).hex()}{ext}")
 
-        with open(tmp_path, "wb") as f:
-            f.write(base64.b64decode(b64))
+        text = ""
+        try:
+            content = await file.read()
+            with open(tmp_path, "wb") as f:
+                f.write(content)
 
-        text = _parse_pdf(tmp_path) if ext == ".pdf" else "DOCX parsing not supported."
-        os.remove(tmp_path)
+            if ext == ".pdf":
+                text = await run_in_threadpool(_parse_pdf, tmp_path)
+            else:
+                text = "DOCX parsing not supported."
+        finally:
+            if os.path.exists(tmp_path):
+                try:
+                    os.remove(tmp_path)
+                except Exception:
+                    pass
 
         # AI scoring
         system_prompt = "You are an expert ATS screener. Evaluate resumes against job descriptions and return structured JSON only."
-        user_prompt = f"""JOB DESCRIPTION:\n{active_jd}\n\nRESUME:\n{text}\n\nReturn exactly this JSON:
-{{
-  "candidateName": "<name or null>",
-  "overallScore": <0-100>,
-  "matchedKeywords": ["kw1"],
-  "missingKeywords": ["kw1"],
-  "recommendation": "<Shortlisted|Review manually|Needs improvement>",
-  "justification": "<2-3 sentences>"
-}}"""
+        user_prompt = f"JOB DESCRIPTION:\n{active_jd}\n\nRESUME:\n{text}\n\nReturn exactly this JSON:\n{{\n  \"candidateName\": \"<name or null>\",\n  \"overallScore\": <0-100>,\n  \"matchedKeywords\": [\"kw1\"],\n  \"missingKeywords\": [\"kw1\"],\n  \"recommendation\": \"<Shortlisted|Review manually|Needs improvement>\",\n  \"justification\": \"<2-3 sentences>\"\n}}"
         try:
-            raw = call_groq(system_prompt, user_prompt)
+            raw = await run_in_threadpool(call_groq, system_prompt, user_prompt)
             ai_result = extract_json(raw)
         except Exception as e:
             print("ATS fallback:", e)
@@ -128,9 +116,9 @@ def upload_candidates(upload: CandidatesUpload, session: Session = Depends(get_s
 
         email_match = re.search(r"[\w.-]+@[\w.-]+\.\w+", text or "")
         candidate = Candidate(
-            name=ai_result.get("candidateName") or res_data.name,
+            name=ai_result.get("candidateName") or file.filename,
             email=email_match.group(0) if email_match else "Not found",
-            filename=res_data.name,
+            filename=file.filename,
             ai_score=ai_result.get("overallScore", 0),
             ai_decision=ai_result.get("recommendation", "Review manually"),
             matched_skills=json.dumps(ai_result.get("matchedKeywords", [])),
