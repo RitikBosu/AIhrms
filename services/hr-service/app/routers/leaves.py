@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from sqlmodel import Session, select
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Optional
 import time
 
@@ -22,6 +22,21 @@ class LeaveRequest(BaseModel):
     toDate: str
     type: str
     reason: str
+
+    @field_validator("fromDate", "toDate", "type", "reason")
+    @classmethod
+    def not_empty(cls, v):
+        if not v.strip():
+            raise ValueError("Field cannot be empty")
+        return v
+
+    @field_validator("type")
+    @classmethod
+    def check_type(cls, v):
+        allowed = ["Sick", "Casual", "Earned", "Unpaid"]
+        if v not in allowed:
+            raise ValueError(f"Type must be one of {allowed}")
+        return v
 
 
 class LeaveAction(BaseModel):

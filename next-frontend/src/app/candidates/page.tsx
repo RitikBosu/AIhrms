@@ -11,6 +11,10 @@ export default function CandidatesPage() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
 
+  // Pagination
+  const [skip, setSkip] = useState(0);
+  const [limit] = useState(10);
+
   const fetchData = async () => {
     try {
       if (user?.role !== "hr" && user?.role !== "admin") {
@@ -18,7 +22,7 @@ export default function CandidatesPage() {
         return;
       }
       const [candRes, jdRes] = await Promise.all([
-        fetch("/api/candidates", { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`/api/candidates?skip=${skip}&limit=${limit}`, { headers: { Authorization: `Bearer ${token}` } }),
         fetch("/api/jd", { headers: { Authorization: `Bearer ${token}` } })
       ]);
       if (candRes.ok) setCandidates(await candRes.json());
@@ -35,7 +39,7 @@ export default function CandidatesPage() {
 
   useEffect(() => {
     if (token) fetchData();
-  }, [token]);
+  }, [token, skip]);
 
   const handleUpdateJD = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -155,6 +159,12 @@ export default function CandidatesPage() {
                 )}
               </tbody>
             </table>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px' }}>
+            <button className="secondary" disabled={skip === 0} onClick={() => setSkip(skip - limit)}>Previous</button>
+            <span>Showing {skip + 1} to {skip + candidates.length}</span>
+            <button className="secondary" disabled={candidates.length < limit} onClick={() => setSkip(skip + limit)}>Next</button>
           </div>
         </section>
       </div>

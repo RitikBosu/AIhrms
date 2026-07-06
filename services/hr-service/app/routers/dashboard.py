@@ -57,6 +57,20 @@ def get_dashboard(session: Session = Depends(get_session), user: dict = Depends(
 
         all_perf = session.exec(select(PerformanceReview)).all()
         risk_levels = ["high" if p.rating < 3 else "medium" if p.rating < 4 else "low" for p in all_perf]
+        
+        # Avg Salary by Dept
+        all_emps = session.exec(select(Employee).where(Employee.is_deleted == False)).all()
+        dept_salary = {}
+        for e in all_emps:
+            dept_salary.setdefault(e.department, []).append(e.salary or 0)
+        avg_salary_by_dept = [{"department": k, "avgSalary": round(sum(v)/len(v))} for k, v in dept_salary.items()]
+
+        # Leave Approval Rate
+        all_leaves = session.exec(select(Leave)).all()
+        approved = sum(1 for l in all_leaves if l.status == "Approved")
+        rejected = sum(1 for l in all_leaves if l.status == "Rejected")
+        pending = sum(1 for l in all_leaves if l.status == "Pending")
+
         result["companyOverview"] = {
             "totalEmployees": employee_count,
             "overallAttendanceRate": overall_rate,
@@ -65,6 +79,12 @@ def get_dashboard(session: Session = Depends(get_session), user: dict = Depends(
                 "medium": risk_levels.count("medium"),
                 "high": risk_levels.count("high"),
             },
+            "avgSalaryByDepartment": avg_salary_by_dept,
+            "leaveApprovalRate": {
+                "approved": approved,
+                "rejected": rejected,
+                "pending": pending
+            }
         }
 
     return result

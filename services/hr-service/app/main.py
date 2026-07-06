@@ -1,9 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import create_db_and_tables
-from app.routers import auth, employees, attendance, leaves, payroll, performance, dashboard
+from app.routers import auth, employees, attendance, leaves, payroll, performance, dashboard, audit
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
+limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="FWC HRMS — HR Service", version="2.0.0")
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,6 +32,7 @@ app.include_router(attendance.router, prefix="/api", tags=["Attendance"])
 app.include_router(leaves.router, prefix="/api", tags=["Leaves"])
 app.include_router(payroll.router, prefix="/api", tags=["Payroll"])
 app.include_router(performance.router, prefix="/api", tags=["Performance"])
+app.include_router(audit.router, prefix="/api", tags=["Audit"])
 
 
 @app.get("/")

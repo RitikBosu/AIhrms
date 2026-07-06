@@ -3,7 +3,11 @@ import re
 import time
 import base64
 import json
-from fastapi import APIRouter, HTTPException, status, Depends, UploadFile, File
+from fastapi import APIRouter, HTTPException, status, Depends, UploadFile, File, Request
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
+limiter = Limiter(key_func=get_remote_address)
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel
 from typing import List, Optional
@@ -59,14 +63,15 @@ def update_jd(jd_in: JDUpdate, session: Session = Depends(get_session), user: di
 # ── Candidates ───────────────────────────────────────────────────────────────
 
 @router.get("/candidates")
-def get_candidates(session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
+def get_candidates(skip: int = 0, limit: int = 100, session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
     require_hr(user)
-    candidates = session.exec(select(Candidate)).all()
+    candidates = session.exec(select(Candidate).offset(skip).limit(limit)).all()
     return [_serialize(c) for c in candidates]
 
 
 @router.post("/candidates")
-async def upload_candidates(files: List[UploadFile] = File(...), session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
+@limiter.limit("5/minute")
+async def upload_candidates(request: Request, files: List[UploadFile] = File(...), session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
     require_hr(user)
     os.makedirs(TEMP_DIR, exist_ok=True)
 

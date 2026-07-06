@@ -4,6 +4,19 @@ from sqlmodel import Field, SQLModel, Column
 import sqlalchemy as sa
 
 
+# ─── Audit Log ─────────────────────────────────────────────────────────────────
+
+class AuditLog(SQLModel, table=True):
+    __tablename__ = "audit_logs"
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int
+    action: str
+    target_id: str
+    details: str
+    timestamp: str
+
+
 # ─── User ────────────────────────────────────────────────────────────────────
 
 class User(SQLModel, table=True):
@@ -32,6 +45,7 @@ class Employee(SQLModel, table=True):
     designation: str
     salary: float
     joining_date: Optional[str] = Field(default=None)
+    is_deleted: bool = Field(default=False)
 
 
 # ─── Attendance ───────────────────────────────────────────────────────────────

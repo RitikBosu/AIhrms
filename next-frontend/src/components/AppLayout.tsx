@@ -58,6 +58,9 @@ export default function AppLayout({ children, title, subtitle }: { children: Rea
             <Link href="/payroll"><button className={title === "Payroll" ? "active" : ""}><span>Payroll</span></button></Link>
             <Link href="/candidates"><button className={title === "AI Screening" ? "active" : ""}><span>AI Screening</span></button></Link>
             <Link href="/performance"><button className={title === "Performance" ? "active" : ""}><span>Performance</span></button></Link>
+            {user.role === "admin" && (
+              <Link href="/audit"><button className={title === "Audit Logs" ? "active" : ""}><span>Audit Logs</span></button></Link>
+            )}
           </nav>
           <div className="sidebar-logout">
             <button className="secondary" style={{ width: "100%" }} onClick={logout}>Logout</button>

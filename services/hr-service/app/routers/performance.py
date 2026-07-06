@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from sqlmodel import Session, select
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Optional
 
 from app.database import get_session
@@ -34,6 +34,20 @@ class PerformanceCreate(BaseModel):
     employeeId: int
     rating: float
     feedback: str
+
+    @field_validator("rating")
+    @classmethod
+    def check_rating(cls, v):
+        if v < 1.0 or v > 5.0:
+            raise ValueError("Rating must be between 1.0 and 5.0")
+        return v
+
+    @field_validator("feedback")
+    @classmethod
+    def check_feedback(cls, v):
+        if not v.strip():
+            raise ValueError("Feedback cannot be empty")
+        return v
 
 
 @router.get("/performance")

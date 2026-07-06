@@ -8,6 +8,11 @@ export default function EmployeesPage() {
   const { token, user } = useAuth();
   const [employees, setEmployees] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Pagination & Filtering
+  const [skip, setSkip] = useState(0);
+  const [limit] = useState(10);
+  const [includeDeleted, setIncludeDeleted] = useState(false);
 
   // Form State
   const [name, setName] = useState("");
@@ -19,7 +24,7 @@ export default function EmployeesPage() {
 
   const fetchEmployees = async () => {
     try {
-      const res = await fetch("/api/employees", {
+      const res = await fetch(`/api/employees?skip=${skip}&limit=${limit}&include_deleted=${includeDeleted}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -35,7 +40,7 @@ export default function EmployeesPage() {
 
   useEffect(() => {
     if (token) fetchEmployees();
-  }, [token]);
+  }, [token, skip, includeDeleted]);
 
   const handleAddEmployee = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,10 +72,22 @@ export default function EmployeesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this employee?")) return;
+    if (!confirm("Are you sure you want to soft delete this employee?")) return;
     try {
       const res = await fetch(`/api/employees/${id}`, {
         method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) fetchEmployees();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleRestore = async (id: string) => {
+    try {
+      const res = await fetch(`/api/employees/${id}/restore`, {
+        method: "POST",
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) fetchEmployees();
@@ -103,7 +120,15 @@ export default function EmployeesPage() {
       )}
 
       <section className="section">
-        <h2>Employee List</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h2>Employee List</h2>
+          {user?.role === "admin" && (
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <input type="checkbox" checked={includeDeleted} onChange={e => { setIncludeDeleted(e.target.checked); setSkip(0); }} />
+              Show Soft Deleted
+            </label>
+          )}
+        </div>
         <div className="table-wrap">
           <table>
             <thead>
@@ -122,7 +147,13 @@ export default function EmployeesPage() {
                   <td>{formatMoney(emp.salary)}</td>
                   <td>{emp.joiningDate}</td>
                   {user?.role === "admin" && (
-                    <td><button className="danger" onClick={() => handleDelete(emp.id)}>Delete</button></td>
+                    <td>
+                      {emp.isDeleted ? (
+                        <button className="primary" onClick={() => handleRestore(emp.id)}>Restore</button>
+                      ) : (
+                        <button className="danger" onClick={() => handleDelete(emp.id)}>Delete</button>
+                      )}
+                    </td>
                   )}
                 </tr>
               ))}
@@ -131,6 +162,11 @@ export default function EmployeesPage() {
               )}
             </tbody>
           </table>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px' }}>
+          <button className="secondary" disabled={skip === 0} onClick={() => setSkip(skip - limit)}>Previous</button>
+          <span>Showing {skip + 1} to {skip + employees.length}</span>
+          <button className="secondary" disabled={employees.length < limit} onClick={() => setSkip(skip + limit)}>Next</button>
         </div>
       </section>
     </AppLayout>
