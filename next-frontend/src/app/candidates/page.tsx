@@ -3,6 +3,7 @@
 import AppLayout from "@/components/AppLayout";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth-context";
+import { toast } from "@/components/toast";
 
 export default function CandidatesPage() {
   const { token, user } = useAuth();
@@ -49,9 +50,15 @@ export default function CandidatesPage() {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ jdText: jd })
       });
-      if (res.ok) alert("Job description updated successfully.");
+      if (res.ok) {
+        toast.success("Job description updated successfully.");
+      } else {
+        const err = await res.json();
+        toast.error(err.detail || "Error updating JD.");
+      }
     } catch (err) {
       console.error(err);
+      toast.error("Network error");
     }
   };
 
@@ -72,14 +79,15 @@ export default function CandidatesPage() {
         body: formData
       });
       if (res.ok) {
-        alert("Resumes processed successfully.");
+        toast.success("Resumes processed successfully.");
         fetchData();
       } else {
         const err = await res.json();
-        alert(err.detail || "Error processing resumes.");
+        toast.error(err.detail || "Error processing resumes.");
       }
     } catch (err) {
       console.error(err);
+      toast.error("Network error processing resumes.");
     } finally {
       setUploading(false);
     }

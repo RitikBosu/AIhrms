@@ -3,6 +3,7 @@
 import AppLayout from "@/components/AppLayout";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth-context";
+import { toast } from "@/components/toast";
 
 export default function AttendancePage() {
   const { token, user } = useAuth();
@@ -48,14 +49,15 @@ export default function AttendancePage() {
         })
       });
       if (res.ok) {
-        alert("Attendance marked successfully");
+        toast.success("Attendance marked successfully");
         fetchData();
       } else {
         const err = await res.json();
-        alert(err.detail || err.error || "Error marking attendance");
+        toast.error(err.detail || err.error || "Error marking attendance");
       }
     } catch (err) {
       console.error(err);
+      toast.error("Network error");
     }
   };
 

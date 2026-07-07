@@ -4,6 +4,7 @@ import { useAuth } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ToastContainer } from "./toast";
 
 const ROLE_LABELS = {
   admin: "Management Admin",
@@ -18,9 +19,18 @@ export default function AppLayout({ children, title, subtitle }: { children: Rea
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
 
+  const [pendingLeaves, setPendingLeaves] = useState(0);
+
   useEffect(() => {
     if (!user) {
       router.push("/login");
+    } else if (user.role === "admin" || user.role === "hr") {
+      fetch("/api/dashboard", { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } })
+        .then(res => res.json())
+        .then(data => {
+          if (data.pendingLeaves) setPendingLeaves(data.pendingLeaves);
+        })
+        .catch(console.error);
     }
   }, [user, router]);
 
@@ -58,6 +68,7 @@ export default function AppLayout({ children, title, subtitle }: { children: Rea
             <Link href="/payroll"><button className={title === "Payroll" ? "active" : ""}><span>Payroll</span></button></Link>
             <Link href="/candidates"><button className={title === "AI Screening" ? "active" : ""}><span>AI Screening</span></button></Link>
             <Link href="/performance"><button className={title === "Performance" ? "active" : ""}><span>Performance</span></button></Link>
+            <Link href="/profile"><button className={title === "My Profile" ? "active" : ""}><span>My Profile</span></button></Link>
             {user.role === "admin" && (
               <Link href="/audit"><button className={title === "Audit Logs" ? "active" : ""}><span>Audit Logs</span></button></Link>
             )}
@@ -75,13 +86,22 @@ export default function AppLayout({ children, title, subtitle }: { children: Rea
             </div>
             <div className="topbar-actions">
               <div className="notif-wrapper">
-                <button className="notif-bell" onClick={() => setNotifOpen(!notifOpen)}>
+                <button className="notif-bell" onClick={() => setNotifOpen(!notifOpen)} style={{ position: "relative" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                  {pendingLeaves > 0 && (
+                    <span style={{ position: "absolute", top: -5, right: -5, background: "var(--coral)", color: "white", borderRadius: "50%", padding: "2px 6px", fontSize: "10px", fontWeight: "bold" }}>
+                      {pendingLeaves}
+                    </span>
+                  )}
                 </button>
                 {notifOpen && (
                   <div className="notif-dropdown open" style={{ display: 'block' }}>
                     <div className="notif-dropdown-header">Notifications</div>
-                    <div className="notif-empty">No new notifications</div>
+                    {pendingLeaves > 0 ? (
+                      <div className="notif-empty" style={{ color: "var(--amber)" }}>{pendingLeaves} pending leave requests</div>
+                    ) : (
+                      <div className="notif-empty">No new notifications</div>
+                    )}
                   </div>
                 )}
               </div>
@@ -93,6 +113,7 @@ export default function AppLayout({ children, title, subtitle }: { children: Rea
           <div id="pageContent">{children}</div>
         </section>
       </section>
+      <ToastContainer />
     </>
   );
 }

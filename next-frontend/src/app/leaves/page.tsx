@@ -3,6 +3,7 @@
 import AppLayout from "@/components/AppLayout";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth-context";
+import { toast } from "@/components/toast";
 
 export default function LeavesPage() {
   const { token, user } = useAuth();
@@ -41,13 +42,14 @@ export default function LeavesPage() {
       if (res.ok) {
         setFromDate(""); setToDate(""); setType("Sick Leave"); setReason("");
         fetchLeaves();
-        alert("Leave requested successfully.");
+        toast.success("Leave requested successfully.");
       } else {
         const err = await res.json();
-        alert(err.detail || "Error requesting leave");
+        toast.error(err.detail?.[0]?.msg || err.detail || "Error requesting leave");
       }
     } catch (err) {
       console.error(err);
+      toast.error("Network error");
     }
   };
 
@@ -58,9 +60,15 @@ export default function LeavesPage() {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ action })
       });
-      if (res.ok) fetchLeaves();
+      if (res.ok) {
+        toast.success(`Leave ${action}d successfully`);
+        fetchLeaves();
+      } else {
+        toast.error("Failed to process leave");
+      }
     } catch (err) {
       console.error(err);
+      toast.error("Network error");
     }
   };
 

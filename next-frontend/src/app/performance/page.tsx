@@ -3,6 +3,7 @@
 import AppLayout from "@/components/AppLayout";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth-context";
+import { toast } from "@/components/toast";
 
 export default function PerformancePage() {
   const { token, user } = useAuth();
@@ -46,13 +47,14 @@ export default function PerformancePage() {
       if (res.ok) {
         setSelectedEmp(""); setRating(5); setFeedback("");
         fetchData();
-        alert("Performance review submitted successfully.");
+        toast.success("Performance review submitted successfully.");
       } else {
         const err = await res.json();
-        alert(err.detail || "Error submitting review");
+        toast.error(err.detail?.[0]?.msg || err.detail || "Error submitting review");
       }
     } catch (err) {
       console.error(err);
+      toast.error("Network error");
     }
   };
 

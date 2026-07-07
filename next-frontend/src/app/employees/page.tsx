@@ -3,6 +3,7 @@
 import AppLayout from "@/components/AppLayout";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth-context";
+import { toast } from "@/components/toast";
 
 export default function EmployeesPage() {
   const { token, user } = useAuth();
@@ -61,10 +62,11 @@ export default function EmployeesPage() {
       if (res.ok) {
         // Reset form
         setName(""); setEmail(""); setDepartment(""); setDesignation(""); setSalary(""); setJoiningDate("");
+        toast.success("Employee added successfully.");
         fetchEmployees();
       } else {
         const err = await res.json();
-        alert(err.detail || "Error adding employee");
+        toast.error(err.detail?.[0]?.msg || err.detail || "Error adding employee");
       }
     } catch (err) {
       console.error(err);
@@ -78,9 +80,16 @@ export default function EmployeesPage() {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });
-      if (res.ok) fetchEmployees();
+      if (res.ok) {
+        toast.success("Employee soft deleted.");
+        fetchEmployees();
+      } else {
+        const err = await res.json();
+        toast.error(err.detail || "Failed to delete employee");
+      }
     } catch (e) {
       console.error(e);
+      toast.error("Network error");
     }
   };
 
@@ -90,9 +99,16 @@ export default function EmployeesPage() {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` }
       });
-      if (res.ok) fetchEmployees();
+      if (res.ok) {
+        toast.success("Employee restored successfully.");
+        fetchEmployees();
+      } else {
+        const err = await res.json();
+        toast.error(err.detail || "Failed to restore employee");
+      }
     } catch (e) {
       console.error(e);
+      toast.error("Network error");
     }
   };
 
