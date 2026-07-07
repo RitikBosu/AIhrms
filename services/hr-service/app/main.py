@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import create_db_and_tables
-from app.routers import auth, employees, attendance, leaves, payroll, performance, dashboard, audit
+from app.routers import auth, employees, attendance, leaves, payroll, performance, dashboard, audit, shifts, scheduling
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -33,7 +33,8 @@ app.include_router(leaves.router, prefix="/api", tags=["Leaves"])
 app.include_router(payroll.router, prefix="/api", tags=["Payroll"])
 app.include_router(performance.router, prefix="/api", tags=["Performance"])
 app.include_router(audit.router, prefix="/api", tags=["Audit"])
-
+app.include_router(shifts.router, prefix="/api", tags=["Shifts"])
+app.include_router(scheduling.router, prefix="/api", tags=["Scheduling"])
 
 @app.get("/")
 def root():

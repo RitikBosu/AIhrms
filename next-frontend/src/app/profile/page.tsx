@@ -10,15 +10,26 @@ export default function ProfilePage() {
   const [payroll, setPayroll] = useState<any>(null);
   const [leaves, setLeaves] = useState<any[]>([]);
   const [performance, setPerformance] = useState<any[]>([]);
+  const [shifts, setShifts] = useState<any[]>([]);
+  const [colleagues, setColleagues] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Shift Swap State
+  const [swapShiftId, setSwapShiftId] = useState<number | null>(null);
+  const [swapTargetId, setSwapTargetId] = useState<string>("");
 
   const fetchProfileData = async () => {
     try {
-      const [empRes, payRes, leaveRes, perfRes] = await Promise.all([
+      // Get dates for upcoming shifts (today onwards)
+      const today = new Date().toISOString().split("T")[0];
+      
+      const [empRes, payRes, leaveRes, perfRes, shiftsRes, allEmpRes] = await Promise.all([
         fetch("/api/employees", { headers: { Authorization: `Bearer ${token}` } }),
         fetch("/api/payroll", { headers: { Authorization: `Bearer ${token}` } }),
         fetch("/api/leaves", { headers: { Authorization: `Bearer ${token}` } }),
-        fetch("/api/performance", { headers: { Authorization: `Bearer ${token}` } })
+        fetch("/api/performance", { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`/api/shifts?start_date=${today}`, { headers: { Authorization: `Bearer ${token}` } }),
+        fetch("/api/employees", { headers: { Authorization: `Bearer ${token}` } }) // To get colleagues for swap
       ]);
 
       if (empRes.ok) {
@@ -31,6 +42,14 @@ export default function ProfilePage() {
       }
       if (leaveRes.ok) setLeaves(await leaveRes.json());
       if (perfRes.ok) setPerformance(await perfRes.json());
+      if (shiftsRes.ok) setShifts(await shiftsRes.json());
+      if (allEmpRes.ok) {
+        const all = await allEmpRes.json();
+        // Filter out self
+        const me = await empRes.clone().json();
+        const myId = me.length > 0 ? me[0].id : null;
+        setColleagues(all.filter((e:any) => e.id !== myId));
+      }
     } catch (e) {
       console.error(e);
     } finally {
@@ -44,6 +63,31 @@ export default function ProfilePage() {
 
   const formatMoney = (val: number) => {
     return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val || 0);
+  };
+
+  const handleRequestSwap = async (shiftId: number) => {
+    if (!swapTargetId) {
+      alert("Please select a colleague to swap with.");
+      return;
+    }
+    try {
+      const res = await fetch("/api/swaps", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ shift_id: shiftId, target_id: parseInt(swapTargetId) })
+      });
+      if (res.ok) {
+        alert("Swap request sent successfully!");
+        setSwapShiftId(null);
+        setSwapTargetId("");
+        fetchProfileData();
+      } else {
+        const err = await res.json();
+        alert(err.detail || "Error requesting swap");
+      }
+    } catch (e) {
+      alert("Network error");
+    }
   };
 
   if (loading) return <AppLayout title="My Profile" subtitle="Manage your personal details and records."><p>Loading...</p></AppLayout>;
@@ -92,6 +136,51 @@ export default function ProfilePage() {
           ) : (
             <p>Payroll details not available.</p>
           )}
+        </section>
+
+        <section className="section" style={{ gridColumn: "1 / -1" }}>
+          <h2>My Upcoming Shifts</h2>
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date & Time</th>
+                  <th>Shift Title</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {shifts.map(s => (
+                  <tr key={s.id}>
+                    <td>{new Date(s.start_time).toLocaleString()} - {new Date(s.end_time).toLocaleTimeString()}</td>
+                    <td>{s.title}</td>
+                    <td><span className={`status-badge ${s.status.toLowerCase()}`}>{s.status}</span></td>
+                    <td>
+                      {s.status === "Scheduled" && (
+                        swapShiftId === s.id ? (
+                          <div style={{ display: "flex", gap: "5px" }}>
+                            <select value={swapTargetId} onChange={e => setSwapTargetId(e.target.value)} style={{ padding: "5px" }}>
+                              <option value="">Select Colleague</option>
+                              {colleagues.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                            </select>
+                            <button className="primary" style={{ padding: "5px 10px" }} onClick={() => handleRequestSwap(s.id)}>Send</button>
+                            <button className="secondary" style={{ padding: "5px 10px" }} onClick={() => setSwapShiftId(null)}>Cancel</button>
+                          </div>
+                        ) : (
+                          <button className="secondary" style={{ padding: "5px 10px" }} onClick={() => setSwapShiftId(s.id)}>Request Swap</button>
+                        )
+                      )}
+                      {s.status === "SwapRequested" && <span style={{ color: "var(--amber)", fontSize: "0.85rem" }}>Swap Pending...</span>}
+                    </td>
+                  </tr>
+                ))}
+                {shifts.length === 0 && (
+                  <tr><td colSpan={4} style={{ textAlign: "center" }}>No upcoming shifts.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section className="section">

@@ -65,7 +65,7 @@ def update_jd(jd_in: JDUpdate, session: Session = Depends(get_session), user: di
 @router.get("/candidates")
 def get_candidates(skip: int = 0, limit: int = 100, session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
     require_hr(user)
-    candidates = session.exec(select(Candidate).offset(skip).limit(limit)).all()
+    candidates = session.exec(select(Candidate).order_by(Candidate.id.desc()).offset(skip).limit(limit)).all()
     return [_serialize(c) for c in candidates]
 
 

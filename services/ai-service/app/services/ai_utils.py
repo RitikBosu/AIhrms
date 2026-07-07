@@ -106,3 +106,31 @@ def predict_attrition_fallback(employee, attendance_rate, leave_count, avg_ratin
         "contributingFactors": factors,
         "recommendedAction": "Schedule 1-on-1 check-in" if risk_score >= 25 else "Monitor"
     }
+
+def generate_roster_prompt(prompt: str, start_date: str, end_date: str, context: dict) -> list:
+    """
+    Calls Groq to generate a draft schedule.
+    Context contains masked employee IDs (e.g. EMP_12) to prevent PII leakage.
+    Returns a list of dicts: {"employee_id": int, "start_time": iso, "end_time": iso, "title": str}
+    """
+    sys_prompt = (
+        "You are an expert HR workforce scheduling AI. "
+        "Your job is to parse the user's natural language scheduling request and output a structured JSON array. "
+        "You MUST ONLY output raw JSON. Do not include markdown formatting or explanations.\n"
+        "Input context includes a list of available employee IDs (e.g. EMP_1, EMP_2).\n"
+        f"Schedule date range: {start_date} to {end_date}.\n\n"
+        "Expected JSON Output Format:\n"
+        "[\n"
+        '  {"employee_id": 1, "start_time": "2026-07-06T09:00:00Z", "end_time": "2026-07-06T17:00:00Z", "title": "Morning Shift"}\n'
+        "]"
+    )
+    
+    user_prompt = f"User Request: {prompt}\nContext: {json.dumps(context)}"
+    
+    try:
+        response_text = call_groq(sys_prompt, user_prompt)
+        return extract_json(response_text)
+    except Exception as e:
+        print(f"Groq API Error generating roster: {e}")
+        # Fallback to simple stub to let the Deterministic Validator handle it, or just return empty
+        return []

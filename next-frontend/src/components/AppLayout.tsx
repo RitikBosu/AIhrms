@@ -25,7 +25,7 @@ export default function AppLayout({ children, title, subtitle }: { children: Rea
     if (!user) {
       router.push("/login");
     } else if (user.role === "admin" || user.role === "hr") {
-      fetch("/api/dashboard", { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } })
+      fetch("/api/dashboard", { headers: { Authorization: `Bearer ${localStorage.getItem("fwcToken")}` } })
         .then(res => res.json())
         .then(data => {
           if (data.pendingLeaves) setPendingLeaves(data.pendingLeaves);
@@ -66,6 +66,9 @@ export default function AppLayout({ children, title, subtitle }: { children: Rea
             <Link href="/attendance"><button className={title === "Attendance" ? "active" : ""}><span>Attendance</span></button></Link>
             <Link href="/leaves"><button className={title === "Leaves" ? "active" : ""}><span>Leaves</span></button></Link>
             <Link href="/payroll"><button className={title === "Payroll" ? "active" : ""}><span>Payroll</span></button></Link>
+            {(user.role === "admin" || user.role === "hr" || user.role === "manager") && (
+              <Link href="/scheduling"><button className={title === "Scheduling" ? "active" : ""}><span>Scheduling</span></button></Link>
+            )}
             <Link href="/candidates"><button className={title === "AI Screening" ? "active" : ""}><span>AI Screening</span></button></Link>
             <Link href="/performance"><button className={title === "Performance" ? "active" : ""}><span>Performance</span></button></Link>
             <Link href="/profile"><button className={title === "My Profile" ? "active" : ""}><span>My Profile</span></button></Link>

@@ -20,6 +20,9 @@ class AttendanceMark(BaseModel):
     employeeId: Optional[int] = None
     date: str
     status: str
+    clock_in: Optional[str] = None
+    clock_out: Optional[str] = None
+    ip_address: Optional[str] = None
 
 
 class BulkRecord(BaseModel):
@@ -37,7 +40,15 @@ def _get_emp_for_user(session: Session, user_id: int) -> Optional[Employee]:
 
 
 def _serialize(a: Attendance) -> dict:
-    return {"id": a.id, "employeeId": a.employee_id, "date": a.date, "status": a.status}
+    return {
+        "id": a.id, 
+        "employeeId": a.employee_id, 
+        "date": a.date, 
+        "status": a.status,
+        "clock_in": a.clock_in.isoformat() if a.clock_in else None,
+        "clock_out": a.clock_out.isoformat() if a.clock_out else None,
+        "ip_address": a.ip_address
+    }
 
 
 @router.get("/attendance")
@@ -65,11 +76,42 @@ def mark_attendance(att_in: AttendanceMark, session: Session = Depends(get_sessi
             raise HTTPException(status_code=404, detail="No employee record linked to your account.")
         emp_id = emp.id
 
-    att = Attendance(employee_id=emp_id, date=att_in.date, status=att_in.status)
-    session.add(att)
-    session.commit()
-    session.refresh(att)
-    return _serialize(att)
+    # Check if an attendance record already exists for this employee today
+    existing = session.exec(
+        select(Attendance)
+        .where(Attendance.employee_id == emp_id)
+        .where(Attendance.date == att_in.date)
+    ).first()
+
+    if existing:
+        # If it exists, we might be clocking out or updating status
+        if att_in.clock_out:
+            existing.clock_out = datetime.fromisoformat(att_in.clock_out.replace("Z", "+00:00"))
+        if att_in.status:
+            existing.status = att_in.status
+        if att_in.ip_address and not existing.ip_address:
+            existing.ip_address = att_in.ip_address
+        session.add(existing)
+        session.commit()
+        session.refresh(existing)
+        return _serialize(existing)
+    else:
+        # Create a new record (Clock In)
+        c_in = datetime.fromisoformat(att_in.clock_in.replace("Z", "+00:00")) if att_in.clock_in else None
+        c_out = datetime.fromisoformat(att_in.clock_out.replace("Z", "+00:00")) if att_in.clock_out else None
+        
+        att = Attendance(
+            employee_id=emp_id, 
+            date=att_in.date, 
+            status=att_in.status,
+            clock_in=c_in,
+            clock_out=c_out,
+            ip_address=att_in.ip_address
+        )
+        session.add(att)
+        session.commit()
+        session.refresh(att)
+        return _serialize(att)
 
 
 @router.post("/attendance/bulk")

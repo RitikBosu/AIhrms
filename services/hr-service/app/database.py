@@ -24,6 +24,9 @@ engine = create_engine(
 
 
 def create_db_and_tables():
+    # Import all models so create_all picks up new tables and foreign keys resolve properly
+    import app.models  # noqa: F401
+    from app.models.shifts import Shift, Availability, ShiftSwapRequest  # noqa: F401
     SQLModel.metadata.create_all(engine)
 
 

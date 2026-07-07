@@ -8,8 +8,12 @@ const nextConfig: NextConfig = {
     return [
       // AI Screening service routes
       {
-        source: "/api/candidates/:path*",
-        destination: `${AI_API}/api/candidates/:path*`,
+        source: "/api/candidates",
+        destination: `${AI_API}/api/candidates`,
+      },
+      {
+        source: "/api/candidates/:path+",
+        destination: `${AI_API}/api/candidates/:path+`,
       },
       {
         source: "/api/jd",

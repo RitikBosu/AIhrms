@@ -1,7 +1,7 @@
 "use client";
 
 import AppLayout from "@/components/AppLayout";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { useAuth } from "@/context/auth-context";
 import { toast } from "@/components/toast";
 
@@ -90,6 +90,7 @@ export default function CandidatesPage() {
       toast.error("Network error processing resumes.");
     } finally {
       setUploading(false);
+      e.target.value = "";
     }
   };
 
@@ -128,7 +129,7 @@ export default function CandidatesPage() {
                 multiple 
                 accept=".pdf" 
                 onChange={handleFileUpload} 
-                style={{ position: 'absolute', opacity: 0, top: 0, left: 0, right: 0, bottom: 0, cursor: 'pointer' }} 
+                style={{ position: 'absolute', opacity: 0, top: 0, left: 0, right: 0, bottom: 0, cursor: 'pointer', zIndex: 10 }} 
               />
               <button className="primary" disabled={uploading}>
                 {uploading ? "Analyzing Resumes..." : "Upload Resumes (.pdf)"}
@@ -147,20 +148,37 @@ export default function CandidatesPage() {
                 </tr>
               </thead>
               <tbody>
-                {candidates.sort((a,b) => b.aiScore - a.aiScore).map((c) => (
-                  <tr key={c.id}>
-                    <td><strong>{c.name}</strong><br/><small className="text-zinc-500">{c.email}</small></td>
-                    <td>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <div style={{ height: '8px', width: '60px', background: 'var(--border)', borderRadius: '4px', overflow: 'hidden' }}>
-                          <div style={{ height: '100%', width: `${c.aiScore}%`, background: c.aiScore >= 80 ? 'var(--green)' : c.aiScore >= 50 ? 'var(--amber)' : 'var(--coral)' }}></div>
+                {candidates.sort((a,b) => new Date(b.uploadedAt || 0).getTime() - new Date(a.uploadedAt || 0).getTime()).map((c) => (
+                  <Fragment key={c.id}>
+                    <tr>
+                      <td>
+                        <strong>{c.name}</strong><br/>
+                        <small className="text-zinc-500">{c.email}</small><br/>
+                        <small className="text-zinc-600">{c.uploadedAt ? new Date(c.uploadedAt).toLocaleString() : 'Legacy Upload'}</small>
+                      </td>
+                      <td>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <div style={{ height: '8px', width: '60px', background: 'var(--border)', borderRadius: '4px', overflow: 'hidden' }}>
+                            <div style={{ height: '100%', width: `${c.aiScore}%`, background: c.aiScore >= 80 ? 'var(--green)' : c.aiScore >= 50 ? 'var(--amber)' : 'var(--coral)' }}></div>
+                          </div>
+                          {c.aiScore}%
                         </div>
-                        {c.aiScore}%
-                      </div>
-                    </td>
-                    <td><span className={`status-badge ${c.aiDecision === "Shortlisted" ? "approved" : c.aiDecision === "Review manually" ? "pending" : "rejected"}`}>{c.aiDecision}</span></td>
-                    <td><small>{c.matchedSkills?.join(", ") || "-"}</small></td>
-                  </tr>
+                      </td>
+                      <td><span className={`status-badge ${c.aiDecision === "Shortlisted" ? "approved" : c.aiDecision === "Review manually" ? "pending" : "rejected"}`}>{c.aiDecision}</span></td>
+                      <td><small>{c.matchedSkills?.join(", ") || "-"}</small></td>
+                    </tr>
+                    <tr>
+                      <td colSpan={4} style={{ padding: '0 14px 14px', borderTop: 'none' }}>
+                        <details style={{ background: 'var(--bg-surface)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                          <summary style={{ cursor: 'pointer', fontSize: '12px', color: 'var(--cyan)', fontWeight: 600 }}>View AI Analysis & Justification</summary>
+                          <div className="ai-output" style={{ marginTop: '12px', fontSize: '13px' }}>
+                            <strong style={{ color: 'var(--coral)' }}>Missing Skills:</strong> {c.gaps?.length > 0 ? c.gaps.join(", ") : "None detected"}<br/><br/>
+                            <strong>Reasoning:</strong> {c.justification}
+                          </div>
+                        </details>
+                      </td>
+                    </tr>
+                  </Fragment>
                 ))}
                 {candidates.length === 0 && (
                   <tr><td colSpan={4} style={{ textAlign: "center" }}>No candidates found. Upload resumes to begin screening.</td></tr>

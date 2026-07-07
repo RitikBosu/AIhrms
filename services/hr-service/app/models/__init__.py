@@ -1,7 +1,9 @@
 from typing import Optional, List
-from datetime import date
+from datetime import date, datetime
 from sqlmodel import Field, SQLModel, Column
+from sqlalchemy import DateTime
 import sqlalchemy as sa
+import enum
 
 
 # ─── Audit Log ─────────────────────────────────────────────────────────────────
@@ -30,6 +32,13 @@ class User(SQLModel, table=True):
     role: str = Field(default="employee")   # admin | hr | manager | employee
 
 
+# ─── Employment Type Enum ─────────────────────────────────────────────────────
+
+class EmploymentType(str, enum.Enum):
+    SALARIED = "SALARIED"
+    SHIFT = "SHIFT"
+
+
 # ─── Employee ────────────────────────────────────────────────────────────────
 
 class Employee(SQLModel, table=True):
@@ -46,6 +55,9 @@ class Employee(SQLModel, table=True):
     salary: float
     joining_date: Optional[str] = Field(default=None)
     is_deleted: bool = Field(default=False)
+    # Phase 5: Shift scheduling fields
+    employment_type: Optional[str] = Field(default=EmploymentType.SALARIED.value)
+    max_weekly_hours: int = Field(default=40)
 
 
 # ─── Attendance ───────────────────────────────────────────────────────────────
@@ -59,6 +71,10 @@ class Attendance(SQLModel, table=True):
     employee_legacy_id: Optional[str] = Field(default=None)
     date: str
     status: str   # Present | Absent
+    # Phase 5: Precise time tracking
+    clock_in: Optional[datetime] = Field(default=None, sa_column=Column(DateTime(timezone=True)))
+    clock_out: Optional[datetime] = Field(default=None, sa_column=Column(DateTime(timezone=True)))
+    ip_address: Optional[str] = Field(default=None)
 
 
 # ─── Leave ────────────────────────────────────────────────────────────────────
