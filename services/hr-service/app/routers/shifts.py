@@ -7,7 +7,7 @@ import requests
 
 from app.database import get_session
 from app.models import Employee, User
-from app.models.shifts import Shift, Availability, ShiftSwapRequest
+from app.models.shifts import Shift, Availability, ShiftSwapRequest, ShiftBid
 from app.routers.deps import get_current_user
 
 router = APIRouter()
@@ -174,3 +174,131 @@ def resolve_swap(swap_id: int, action: str, session: Session = Depends(get_sessi
     session.commit()
     
     return swap
+
+
+# ─── Open Shifts Marketplace ──────────────────────────────────────────────────
+
+@router.get("/open-shifts")
+def get_open_shifts(session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
+    # Returns all shifts where employee_id is null
+    query = select(Shift).where(Shift.employee_id == None)
+    return session.exec(query).all()
+
+
+class OpenShiftPayload(BaseModel):
+    title: str
+    start_time: str
+    end_time: str
+
+
+@router.post("/open-shifts", status_code=status.HTTP_201_CREATED)
+def create_open_shift(payload: OpenShiftPayload, session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
+    require_role(user, ["admin", "hr", "manager"])
+    try:
+        st = datetime.fromisoformat(payload.start_time.replace("Z", "+00:00"))
+        et = datetime.fromisoformat(payload.end_time.replace("Z", "+00:00"))
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid date format")
+
+    shift = Shift(
+        employee_id=None,
+        title=payload.title,
+        start_time=st,
+        end_time=et,
+        status="Open",
+        created_by=user["id"]
+    )
+    session.add(shift)
+    session.commit()
+    session.refresh(shift)
+    return shift
+
+
+@router.post("/open-shifts/{shift_id}/bid", status_code=status.HTTP_201_CREATED)
+def bid_on_open_shift(shift_id: int, session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
+    if user["role"] != "employee":
+        raise HTTPException(status_code=403, detail="Only employees can bid on open shifts")
+
+    emp = _get_emp_for_user(session, user["id"])
+    if not emp:
+        raise HTTPException(status_code=404, detail="Employee record not found")
+
+    shift = session.get(Shift, shift_id)
+    if not shift or shift.employee_id is not None:
+        raise HTTPException(status_code=404, detail="Open shift not found or already assigned")
+
+    # Check if already bid
+    existing_bid = session.exec(select(ShiftBid).where(ShiftBid.shift_id == shift_id).where(ShiftBid.employee_id == emp.id)).first()
+    if existing_bid:
+        raise HTTPException(status_code=400, detail="You have already bid on this shift")
+
+    bid = ShiftBid(
+        shift_id=shift_id,
+        employee_id=emp.id,
+        created_at=datetime.utcnow().isoformat()
+    )
+    session.add(bid)
+    session.commit()
+    session.refresh(bid)
+    return bid
+
+
+@router.get("/open-shifts/{shift_id}/bids")
+def get_open_shift_bids(shift_id: int, session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
+    require_role(user, ["admin", "manager", "hr"])
+    
+    # We want to return the bids along with the employee details
+    bids = session.exec(select(ShiftBid).where(ShiftBid.shift_id == shift_id)).all()
+    
+    results = []
+    for b in bids:
+        emp = session.get(Employee, b.employee_id)
+        if emp:
+            results.append({
+                "id": b.id,
+                "shift_id": b.shift_id,
+                "employee_id": b.employee_id,
+                "status": b.status,
+                "created_at": b.created_at,
+                "employee": {
+                    "id": emp.id,
+                    "name": emp.name,
+                    "department": emp.department,
+                    "max_weekly_hours": emp.max_weekly_hours,
+                    "performance_rating": emp.performance_rating
+                }
+            })
+    return results
+
+
+@router.post("/open-shifts/bids/{bid_id}/approve")
+def approve_shift_bid(bid_id: int, session: Session = Depends(get_session), user: dict = Depends(get_current_user)):
+    require_role(user, ["admin", "manager", "hr"])
+    
+    bid = session.get(ShiftBid, bid_id)
+    if not bid:
+        raise HTTPException(status_code=404, detail="Bid not found")
+        
+    shift = session.get(Shift, bid.shift_id)
+    if not shift or shift.employee_id is not None:
+        raise HTTPException(status_code=400, detail="Shift no longer open")
+        
+    # Assign shift
+    shift.employee_id = bid.employee_id
+    shift.status = "Scheduled"
+    
+    # Approve this bid
+    bid.status = "Approved"
+    
+    # Reject all other bids for this shift
+    other_bids = session.exec(select(ShiftBid).where(ShiftBid.shift_id == bid.shift_id).where(ShiftBid.id != bid.id)).all()
+    for ob in other_bids:
+        ob.status = "Rejected"
+        session.add(ob)
+        
+    session.add(shift)
+    session.add(bid)
+    session.commit()
+    
+    return {"message": "Bid approved, shift assigned", "shift_id": shift.id, "employee_id": shift.employee_id}
+
