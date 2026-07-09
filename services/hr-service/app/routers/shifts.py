@@ -250,10 +250,15 @@ def get_open_shift_bids(shift_id: int, session: Session = Depends(get_session), 
     # We want to return the bids along with the employee details
     bids = session.exec(select(ShiftBid).where(ShiftBid.shift_id == shift_id)).all()
     
+    from app.models import PerformanceReview
+
+    
     results = []
     for b in bids:
         emp = session.get(Employee, b.employee_id)
         if emp:
+            reviews = session.exec(select(PerformanceReview).where(PerformanceReview.employee_id == emp.id)).all()
+            rating = sum(r.rating for r in reviews) / len(reviews) if reviews else 4.0
             results.append({
                 "id": b.id,
                 "shift_id": b.shift_id,
@@ -265,7 +270,8 @@ def get_open_shift_bids(shift_id: int, session: Session = Depends(get_session), 
                     "name": emp.name,
                     "department": emp.department,
                     "max_weekly_hours": emp.max_weekly_hours,
-                    "performance_rating": emp.performance_rating
+                    "performance_rating": rating
+
                 }
             })
     return results

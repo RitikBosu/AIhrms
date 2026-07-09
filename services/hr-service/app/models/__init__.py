@@ -58,6 +58,9 @@ class Employee(SQLModel, table=True):
     # Phase 5: Shift scheduling fields
     employment_type: Optional[str] = Field(default=EmploymentType.SALARIED.value)
     max_weekly_hours: int = Field(default=40)
+    # Phase 7: PTO balances
+    pto_balance_days: float = Field(default=20.0)
+    sick_leave_balance_days: float = Field(default=10.0)
 
 
 # ─── Attendance ───────────────────────────────────────────────────────────────
@@ -92,6 +95,7 @@ class Leave(SQLModel, table=True):
     reason: str
     status: str = Field(default="Pending")   # Pending | Approved | Rejected
     requested_on: Optional[str] = Field(default=None)
+    ai_justification: Optional[str] = Field(default=None)
 
 
 # ─── Performance Review ───────────────────────────────────────────────────────
